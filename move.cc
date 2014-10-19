@@ -1,8 +1,8 @@
 #include "move.h"
 
-std::string squareName(const int square)
+inline std::string squareName(const int square)
 {
-    int s = SQ64_2[square]; char c[] = { (char)((s % 8) + 'a'), (char)((s / 8) + '1'), '\0' };
+    int s = SQ64[square]; char c[] = { (char)((s % 8) + 'a'), (char)((s / 8) + '1'), '\0' };
     std::string name(c);
     return name;
 }

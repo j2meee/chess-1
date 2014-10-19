@@ -17,7 +17,7 @@ inline void addEnPasMove(Board &pos, const int move, MoveList &list)
 
 inline void addWhitePawnMove(Board &pos, const int from, const int to, MoveList &list)
 {
-    if(RANKS[SQ64(from)] == RANK_7) {
+    if(RANKS[SQ64[from]] == RANK_7) {
         addQuietMove(pos, MOVE(from, to, 0, WQ, 0), list);
         addQuietMove(pos, MOVE(from, to, 0, WR, 0), list);
         addQuietMove(pos, MOVE(from, to, 0, WB, 0), list);
@@ -30,7 +30,7 @@ inline void addWhitePawnMove(Board &pos, const int from, const int to, MoveList 
 
 inline void addWhitePawnCaptureMove(Board &pos, const int from, const int to, const int cap, MoveList &list)
 {
-    if(RANKS[SQ64(from)] == RANK_7) {
+    if(RANKS[SQ64[from]] == RANK_7) {
         addCaptureMove(pos, MOVE(from, to, cap, WQ, 0), list);
         addCaptureMove(pos, MOVE(from, to, cap, WR, 0), list);
         addCaptureMove(pos, MOVE(from, to, cap, WB, 0), list);
@@ -43,7 +43,7 @@ inline void addWhitePawnCaptureMove(Board &pos, const int from, const int to, co
 
 inline void addBlackPawnMove(Board &pos, const int from, const int to, MoveList &list)
 {
-    if(RANKS[SQ64(from)] == RANK_2) {
+    if(RANKS[SQ64[from]] == RANK_2) {
         addQuietMove(pos, MOVE(from, to, 0, BQ, 0), list);
         addQuietMove(pos, MOVE(from, to, 0, BR, 0), list);
         addQuietMove(pos, MOVE(from, to, 0, BB, 0), list);
@@ -56,7 +56,7 @@ inline void addBlackPawnMove(Board &pos, const int from, const int to, MoveList 
 
 inline void addBlackPawnCaptureMove(Board &pos, const int from, const int to, const int cap, MoveList &list)
 {
-    if(RANKS[SQ64(from)] == RANK_2) {
+    if(RANKS[SQ64[from]] == RANK_2) {
         addCaptureMove(pos, MOVE(from, to, cap, BQ, 0), list);
         addCaptureMove(pos, MOVE(from, to, cap, BR, 0), list);
         addCaptureMove(pos, MOVE(from, to, cap, BB, 0), list);
@@ -80,14 +80,14 @@ MoveList generateAllMoves(Board &pos)
             square = pos.getPieceList(WP)[pceNum];
             if(pos.getBoard()[square + 10] == EMPTY) {
                 addWhitePawnMove(pos, square, square + 10, moves);
-                if(RANKS[SQ64(square)] == RANK_2 && pos.getBoard()[square + 20] == EMPTY) {
+                if(RANKS[SQ64[square]] == RANK_2 && pos.getBoard()[square + 20] == EMPTY) {
                     addQuietMove(pos, MOVE(square, square + 20, EMPTY, EMPTY, MFLAGPS), moves);
                 }
             }
-            if(SQ64(square + 9) != NO_SQ && PIECE_COLOR[pos.getBoard()[square + 9]] == BLACK) {
+            if(SQ64[square + 9] != NO_SQ && PIECE_COLOR[pos.getBoard()[square + 9]] == BLACK) {
                 addWhitePawnCaptureMove(pos, square, square + 9, pos.getBoard()[square + 9], moves);
             }
-            if(SQ64(square + 11) != NO_SQ && PIECE_COLOR[pos.getBoard()[square + 11]] == BLACK) {
+            if(SQ64[square + 11] != NO_SQ && PIECE_COLOR[pos.getBoard()[square + 11]] == BLACK) {
                 addWhitePawnCaptureMove(pos, square, square + 11, pos.getBoard()[square + 11], moves);
             }
             if(square + 9 == pos.getEnPas()) {
@@ -117,14 +117,14 @@ MoveList generateAllMoves(Board &pos)
             square = pos.getPieceList(BP)[pceNum];
             if(pos.getBoard()[square - 10] == EMPTY) {
                 addBlackPawnMove(pos, square, square - 10, moves);
-                if(RANKS[SQ64(square)] == RANK_7 && pos.getBoard()[square - 20] == EMPTY) {
+                if(RANKS[SQ64[square]] == RANK_7 && pos.getBoard()[square - 20] == EMPTY) {
                     addQuietMove(pos, MOVE(square, square - 20, EMPTY, EMPTY, MFLAGPS), moves);
                 }
             }
-            if(SQ64(square - 9) != NO_SQ && PIECE_COLOR[pos.getBoard()[square - 9]] == WHITE) {
+            if(SQ64[square - 9] != NO_SQ && PIECE_COLOR[pos.getBoard()[square - 9]] == WHITE) {
                 addBlackPawnCaptureMove(pos, square, square - 9, pos.getBoard()[square - 9], moves);
             }
-            if(SQ64(square - 11) != NO_SQ && PIECE_COLOR[pos.getBoard()[square - 11]] == WHITE) {
+            if(SQ64[square - 11] != NO_SQ && PIECE_COLOR[pos.getBoard()[square - 11]] == WHITE) {
                 addBlackPawnCaptureMove(pos, square, square - 11, pos.getBoard()[square - 11], moves);
             }
             if(square - 9 == pos.getEnPas()) {

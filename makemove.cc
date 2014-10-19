@@ -1,6 +1,6 @@
 #include "makemove.h"
 
-void clearPiece(const int square, Board& pos)
+inline void clearPiece(const int square, Board& pos)
 {
     int piece = pos.getBoard()[square];
     int color = PIECE_COLOR[piece];
@@ -8,8 +8,8 @@ void clearPiece(const int square, Board& pos)
     pos.hashPiece(piece, square);
     pos.getBoard()[square] = EMPTY;
     if(piece == WP || piece == BP) {
-        clearBit(pos.getPawns()[color], SQ64(square));
-        clearBit(pos.getPawns()[BOTH], SQ64(square));
+        clearBit(pos.getPawns()[color], SQ64[square]);
+        clearBit(pos.getPawns()[BOTH], SQ64[square]);
     }
     for(int i = 0; i < pos.getPieceNum(piece); i++) {
         if(pos.getPieceList(piece)[i] == square) {
@@ -21,20 +21,20 @@ void clearPiece(const int square, Board& pos)
     pos.getPieceList(piece)[targetPNum] = pos.getPieceList(piece)[pos.getPieceNum(piece)];
 }
 
-void addPiece(const int piece, const int square, Board& pos)
+inline void addPiece(const int piece, const int square, Board& pos)
 {
     int color = PIECE_COLOR[piece];
     pos.getBoard()[square] = piece;
     pos.hashPiece(piece, square);
     if(piece == WP || piece == BP) {
-        setBit(pos.getPawns()[color], SQ64(square));
-        setBit(pos.getPawns()[BOTH], SQ64(square));
+        setBit(pos.getPawns()[color], SQ64[square]);
+        setBit(pos.getPawns()[BOTH], SQ64[square]);
     }
     pos.getPieceList(piece)[pos.getPieceNum(piece)] = square;
     pos.incrementPieceNum(piece);
 }
 
-void movePiece(const int from, const int to, Board& pos)
+inline void movePiece(const int from, const int to, Board& pos)
 {
     int piece = pos.getBoard()[from];
     int color = PIECE_COLOR[from];
@@ -43,10 +43,10 @@ void movePiece(const int from, const int to, Board& pos)
     pos.getBoard()[from] = EMPTY;
     pos.getBoard()[to] = piece;
     if(piece == WP || piece == BP) {
-        clearBit(pos.getPawns()[color], SQ64(from));
-        clearBit(pos.getPawns()[BOTH], SQ64(from));
-        setBit(pos.getPawns()[color], SQ64(to));
-        setBit(pos.getPawns()[BOTH], SQ64(to));
+        clearBit(pos.getPawns()[color], SQ64[from]);
+        clearBit(pos.getPawns()[BOTH], SQ64[from]);
+        setBit(pos.getPawns()[color], SQ64[to]);
+        setBit(pos.getPawns()[BOTH], SQ64[to]);
     }
     for(int i = 0; i < pos.getPieceNum(piece); i++) {
         if(pos.getPieceList(piece)[i] == from) {
@@ -68,7 +68,7 @@ bool makeMove(Move& move, Board& pos)
     int enPas = pos.getEnPas();
     int fiftyMove = pos.getFiftyMove();
     uint64_t hash = pos.getHashKey();
-    Undo current = Undo(side, castle, enPas, fiftyMove, move, hash);
+    Undo current = Undo(side, castle, enPas, fiftyMove, move.getValue(), hash);
     if(move.getValue() & MFLAGEP) {
         if(side == WHITE) {
             clearPiece(to - 10, pos);
@@ -141,7 +141,7 @@ void takeMove(Board& pos)
     pos.decrementPly();
     pos.decrementHistoryPly();
     Undo undo = pos.getHistory()[pos.getHistoryPly()];
-    int move = undo.getMove().getValue();
+    int move = undo.getMoveValue();
     int from = FROMSQ(move);
     int to = TOSQ(move);
     int captured = CAPTURED(move);

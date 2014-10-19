@@ -4,9 +4,7 @@
 int main()
 {
     init();
-
     Perft p;
     p.test();
-
     return 0;
 }

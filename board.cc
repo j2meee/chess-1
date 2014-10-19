@@ -1,39 +1,5 @@
 #include "board.h"
 
-int SQ64(const int sq120)
-{
-    int ar[120] = {
-        99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
-        99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
-        99,  0,  1,  2,  3,  4,  5,  6,  7, 99,
-        99,  8,  9, 10, 11, 12, 13, 14, 15, 99,
-        99, 16, 17, 18, 19, 20, 21, 22, 23, 99,
-        99, 24, 25, 26, 27, 28, 29, 30, 31, 99,
-        99, 32, 33, 34, 35, 36, 37, 38, 39, 99,
-        99, 40, 41, 42, 43, 44, 45, 46, 47, 99,
-        99, 48, 49, 50, 51, 52, 53, 54, 55, 99,
-        99, 56, 57, 58, 59, 60, 61, 62, 63, 99,
-        99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
-        99, 99, 99, 99, 99, 99, 99, 99, 99, 99
-    };
-    return ar[sq120];
-}
-
-int SQ120(const int sq64)
-{
-    int ar[64] = {
-        21, 22, 23, 24, 25, 26, 27, 28,
-        31, 32, 33, 34, 35, 36, 37, 38,
-        41, 42, 43, 44, 45, 46, 47, 48,
-        51, 52, 53, 54, 55, 56, 57, 58,
-        61, 62, 63, 64, 65, 66, 67, 68,
-        71, 72, 73, 74, 75, 76, 77, 78,
-        81, 82, 83, 84, 85, 86, 87, 88,
-        91, 92, 93, 94, 95, 96, 97, 98
-    };
-    return ar[sq64];
-}
-
 void Board::generateHash()
 {
     uint64_t key = 0;
@@ -59,7 +25,7 @@ void Board::reset()
         board[i] = NO_SQ;
     }
     for(int i = 0; i < 64; i++) {
-        board[SQ120(i)] = EMPTY;
+        board[SQ120[i]] = EMPTY;
     }
     for(int i = 0; i < 3; i++) {
         pawns[i] = 0ULL;
@@ -127,7 +93,7 @@ bool Board::parseFen(const std::string fen)
             }
             for(int i = 0; i < count; i++) {
                 sq64 = rank * 8 + file;
-                sq120 = SQ120(sq64);
+                sq120 = SQ120[sq64];
                 if(piece != EMPTY) {
                     board[sq120] = piece;
                 }
@@ -187,12 +153,12 @@ void Board::updateList()
             pList[piece][pNum[piece]] = i;
             pNum[piece]++;
             if(piece == WP) {
-                setBit(pawns[WHITE], SQ64(i));
-                setBit(pawns[BOTH], SQ64(i));
+                setBit(pawns[WHITE], SQ64[i]);
+                setBit(pawns[BOTH], SQ64[i]);
             }
             else if(piece == BP) {
-                setBit(pawns[BLACK], SQ64(i));
-                setBit(pawns[BOTH], SQ64(i));
+                setBit(pawns[BLACK], SQ64[i]);
+                setBit(pawns[BOTH], SQ64[i]);
             }
         }
     }
