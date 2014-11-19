@@ -61,7 +61,7 @@ int main()
                     throw 0;
                 }
             }
-            catch(int e) {
+            catch(int) {
                 std::cout << std::endl;
                 std::cout << "ERROR Invalid input" << std::endl;
             }
