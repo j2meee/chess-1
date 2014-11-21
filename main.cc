@@ -46,7 +46,7 @@ int main()
         }
         else if(input == "s") {
             std::cout << std::endl;
-            SearchInfo info(7);
+            SearchInfo info(-1);
             search::searchPosition(pos, info);
         }
         else if(input == "p") {
