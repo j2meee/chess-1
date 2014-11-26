@@ -17,9 +17,7 @@ std::string utils::getTimestamp()
 long utils::getTime()
 {
 #ifdef WIN32
-    SYSTEMTIME time;
-    GetSystemTime(&time);
-    return (time.wSecond * 1000) + time.wMilliseconds;
+    GetTickCount();
 #else
     return std::chrono::system_clock::now().time_since_epoch()/std::chrono::milliseconds(1);
 #endif
